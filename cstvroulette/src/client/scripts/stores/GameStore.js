@@ -47,7 +47,7 @@ class GameStore extends EventEmitter {
     ];
     this.bets = [];
     this.lastBet = [];
-    this.money = 100000;
+    this.money = 0;
     this.totalBet = 0;
     this.token = 0.1;
     this.previusBets = null;

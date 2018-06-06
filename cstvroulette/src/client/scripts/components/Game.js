@@ -14,8 +14,7 @@ import EndGameWindow from "./EndGameWindow";
 import ErrorWindow from "./ErrorWindow";
 import ProgressWindow from "./ProgressWindow";
 import Bet from "./Bet";
-import Web3 from "web3";
-//import abiDecoder from "abi-decoder";
+import myWeb3 from '../myweb3'
 
 class Game extends Component {
     constructor() {
@@ -60,7 +59,7 @@ class Game extends Component {
     }
 
     startGame() {
-        let web3, self = this;
+        let web3 = myWeb3, self = this;
         this.setState({cancelBtnDisable: true, completeBetsDisable: true, chipDisable:true});
 
         if (typeof web3 !== "undefined") {
@@ -70,8 +69,6 @@ class Game extends Component {
                 new Web3.providers.HttpProvider("http://localhost:8545")
             );
         }
-        let coinbase = web3.eth.coinbase;
-        //let balance = web3.eth.getBalance(coinbase);
         const recipientAddress = "0x490314424d6BA95c25F81bbFBBA352cdcf44Ee7f";
         const recipientABI = [{"constant":false,"inputs":[{"name":"playerBets","type":"uint256[]"}],"name":"registerBets","outputs":[],"payable":true,"stateMutability":"payable","type":"function"},{"constant":true,"inputs":[{"name":"","type":"uint256"}],"name":"bets","outputs":[{"name":"owner","type":"address"},{"name":"betType","type":"uint256"},{"name":"amount","type":"uint256"},{"name":"block","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[],"name":"kill","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[],"name":"betsLength","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"toBlock","type":"uint256"},{"name":"result","type":"uint256"},{"name":"resultVideo","type":"string"}],"name":"registerResult","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":false,"inputs":[{"name":"to","type":"address"},{"name":"amount","type":"uint256"}],"name":"withdraw","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"inputs":[],"payable":false,"stateMutability":"nonpayable","type":"constructor"},{"payable":true,"stateMutability":"payable","type":"fallback"},{"anonymous":false,"inputs":[],"name":"onBetsRegistered","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"name":"_fromBlock","type":"uint256"},{"indexed":false,"name":"_toBlock","type":"uint256"},{"indexed":false,"name":"_result","type":"uint256"},{"indexed":false,"name":"_resultVideo","type":"string"}],"name":"onResultRegistered","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"name":"_winner","type":"address"},{"indexed":false,"name":"_amount","type":"uint256"}],"name":"onWinRegistered","type":"event"}];
         const bets = this.state.bets;

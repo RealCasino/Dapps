@@ -3,13 +3,16 @@ import React, { Component } from 'react';
 import GameStore from '../stores/GameStore';
 
 import styles from '../App.css';
-import {Rspan} from 'oo7-react';
-import {bonds, formatBalance} from 'oo7-parity';
+import myWeb3 from '../myweb3'
+
+
 
 class Infobox extends Component {
 
   constructor() {
     super();
+    this.setBalance();
+
     this.state = {
       money: GameStore.getMoney(),
       totalBet: GameStore.getTotalBet(),
@@ -41,6 +44,12 @@ class Infobox extends Component {
     this.setState({tableOpen})
   }
 
+  setBalance(){
+      let balance = myWeb3.eth.getBalance(myWeb3.eth.accounts[0]);
+      balance = myWeb3.fromWei(balance.toNumber(), 'finney');
+      GameStore.updateMoney(balance);
+  }
+
   render() {
     let tableOpen = this.state.tableOpen ? styles.open : "";
     let buttonOpen = this.state.tableOpen ? styles.openBtn : "";
@@ -49,8 +58,8 @@ class Infobox extends Component {
         <div className={styles.container}>
           <div className={styles.mainInfo}>
             <div className={styles.moneyInfo}>
-              <p><b>Address:</b><Rspan>{bonds.me}</Rspan></p>
-              <p><b>Balance:</b> <Rspan> {bonds.balance(bonds.me).map(formatBalance)} </Rspan></p>
+              <p><b>Address:</b> {myWeb3.eth.accounts[0]}</p>
+              <p><b>Balance:</b> {this.state.money} Finney</p>
               <p><b>Total bet:</b> {this.state.totalBet}</p>
             </div>
           </div>
